@@ -88,7 +88,7 @@ def is_outdated(path: Path, max_age_days: int) -> bool:
 
 @click.command()
 @click.argument("config_file", required=False, type=click.Path(exists=True))
-def osm_download(config_file):
+def osm_download(config_file: str):
     """Download OSM data from multiple areas/entities defined in YAML config."""
     logger = setup_logger()
 
@@ -111,11 +111,9 @@ def osm_download(config_file):
 
     # Override output folder from DATA_DIR env if set
     out_fmt = cfg.get("output", {}).get("format", "geojson")
-    out_dir = Path(
-        os.getenv("DATA_DIR", cfg.get("output", {}).get("folder", "./osm_data"))
-    )
+    out_dir = Path(os.getenv("DATA_DIR", cfg.get("output", {}).get("folder", "./data")))
     refresh = cfg.get("output", {}).get("refresh", False)
-    max_age_days = cfg.get("output", {}).get("max_age_days", 0)
+    max_age_days = cfg.get("output", {}).get("max_age_days", 120)
 
     osmnx.settings.use_cache = True
     # clean cache older than max_age_days
@@ -126,7 +124,16 @@ def osm_download(config_file):
         sys.exit(1)
 
     for area_cfg in cfg.get("areas", []):
-        area_name = area_cfg["name"]
+
+        area_place = area_cfg.get("place", None)
+        area_name = area_cfg.get("name", None)
+
+        if not area_place:
+            raise Exception("'place' is required")
+
+        if not area_name:
+            area_name = sanitize_filename(area_place)
+
         area_dir = out_dir / sanitize_filename(area_name)
         area_dir.mkdir(parents=True, exist_ok=True)
 
@@ -142,16 +149,16 @@ def osm_download(config_file):
                 logger.info(f"Skipping {outfile} (up-to-date)")
                 continue
 
-            logger.info(f"Fetching group '{group_name}' in {area_name}")
+            logger.info(f"Fetching group '{group_name}' in {area_place}")
 
             all_results = []
             for ent in entities:
-                gdf = fetch_data(area_name, ent, logger)
+                gdf = fetch_data(area_place, ent, logger)
                 if not gdf.empty:
                     all_results.append(gdf)
 
             if not all_results:
-                logger.warning(f"No data for group '{group_name}' in {area_name}")
+                logger.warning(f"No data for group '{group_name}' in {area_place}")
                 continue
 
             gdf_out = gpd.GeoDataFrame(pd.concat(all_results, ignore_index=True))
