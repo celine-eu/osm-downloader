@@ -1,0 +1,82 @@
+areas:
+  - name: "Alpe Cimbra, Trentino"
+    groups:
+      piste_and_lifts:
+        - key: "piste:type" # ski, nordic, sled, hike
+          value: "*"
+        - key: "aerialway" # ski lifts, gondolas
+          value: "*"
+      hospitality:
+        - key: "tourism"
+          value: "hotel"
+        - key: "tourism"
+          value: "guest_house"
+        - key: "tourism"
+          value: "alpine_hut"
+        - key: "tourism"
+          value: "resort"
+        - key: "tourism"
+          value: "hostel"
+        - key: "tourism"
+          value: "camp_site"
+        - key: "tourism"
+          value: "caravan_site"
+      parking:
+        - key: "amenity"
+          value: "parking"
+        - key: "amenity"
+          value: "parking_space"
+      amusement:
+        - key: "leisure"
+          value: "amusement_arcade"
+        - key: "leisure"
+          value: "theme_park"
+        - key: "leisure"
+          value: "water_park"
+        - key: "leisure"
+          value: "park"
+      ev_charging:
+        - key: "amenity"
+          value: "charging_station"
+      tourism_culture:
+        - key: "tourism"
+          value: "museum"
+        - key: "tourism"
+          value: "artwork"
+        - key: "tourism"
+          value: "gallery"
+        - key: "tourism"
+          value: "attraction"
+        - key: "tourism"
+          value: "exhibit"
+        - key: "heritage"
+          value: "*"
+        - key: "amenity"
+          value: "theatre"
+        - key: "amenity"
+          value: "arts_centre"
+
+  - name: "Lappeenranta, Finland"
+    groups:
+      social_buildings:
+        - key: "amenity"
+          value: "social_facility"
+        - key: "social_facility"
+          value: "*"
+        - key: "building"
+          value: "apartments"
+        - key: "building"
+          value: "residential"
+        - key: "building"
+          value: "detached"
+        - key: "building"
+          value: "terrace"
+        # If operator info exists in OSM:
+        - key: "operator"
+          value: "ASPA"
+
+output:
+  format: "geojson"
+  folder: "./data"
+  refresh: false
+  max_age_days: 120
