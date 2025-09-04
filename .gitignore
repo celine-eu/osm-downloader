@@ -3,3 +3,4 @@ data/*
 .venv
 .env
 cache
+*.egg-info
