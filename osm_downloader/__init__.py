@@ -1,1 +1,1 @@
-from .main import osm_download
+from .downloader import osm_download
