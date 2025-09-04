@@ -60,10 +60,6 @@ def fetch_data(area: str, entity: dict, logger: logging.Logger) -> gpd.GeoDataFr
 
     try:
         gdf = osmnx.features.features_from_place(area, tags=tags)
-        if not gdf.empty:
-            gdf["area"] = area
-            gdf["key"] = key
-            gdf["value"] = value
         return gdf
     except ValueError as e:
         if "No matching features" in str(e):
@@ -161,16 +157,21 @@ def osm_download(config_file: str):
                 logger.warning(f"No data for group '{group_name}' in {area_place}")
                 continue
 
-            gdf_out = gpd.GeoDataFrame(pd.concat(all_results, ignore_index=True))
-            gdf_out = gdf_out[~gdf_out.index.duplicated(keep="first")]
+            # Preserve the OSM index
+            gdf_out = gpd.GeoDataFrame(pd.concat(all_results, ignore_index=False))
+
+            # Reset index so element + id become columns
+            gdf_out = gdf_out.reset_index()
+
+            # Drop duplicates based on osm_id
+            gdf_out = gdf_out.drop_duplicates(subset=["element", "id"])
 
             try:
                 if out_fmt == "geojson":
                     gdf_out.to_file(outfile, driver="GeoJSON")
                 elif out_fmt == "parquet":
                     gdf_out.to_parquet(outfile)
-                elif out_fmt == "csv":
-                    gdf_out.drop(columns="geometry").to_csv(outfile, index=False)
+
                 logger.info(f"Saved {len(gdf_out)} records to {outfile}")
             except Exception as e:
                 logger.error(f"Failed writing {outfile}: {e}")
