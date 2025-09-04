@@ -65,14 +65,6 @@ areas:
           value: "social_facility"
         - key: "social_facility"
           value: "*"
-        - key: "building"
-          value: "apartments"
-        - key: "building"
-          value: "residential"
-        - key: "building"
-          value: "detached"
-        - key: "building"
-          value: "terrace"
 
 output:
   format: "geojson"
