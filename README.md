@@ -1,4 +1,4 @@
-# OSM downloader
+# openstreetmap-downloader
 
 Downloads OpenStreetMap data by configurations
 
