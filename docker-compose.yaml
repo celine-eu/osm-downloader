@@ -27,8 +27,8 @@ services:
       set -e;
       mc alias set myminio http://minio:9000 minioadmin minioadmin;
       mc mb -p myminio/local-data || true;
-      echo 'Syncing local ./data to bucket...';
-      mc mirror --overwrite --watch /data myminio/local-data;
+      # echo 'Syncing local ./data to bucket...';
+      # mc mirror --overwrite --watch /data myminio/local-data;
       "
     volumes:
       - ./data:/data:ro
