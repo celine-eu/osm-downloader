@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v1.1.1 (2025-11-09)
+
+### Chores
+
+- Rename pypi package
+  ([`cd3cadd`](https://github.com/celine-eu/osm-downloader/commit/cd3caddd46d695c3d7d39c48361ed52351e4396c))
+
+
 ## v1.1.0 (2025-11-09)
 
 ### Chores
