@@ -5,7 +5,9 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "boto3>=1.40.69",
     "click>=8.2.1",
+    "fsspec>=2025.10.0",
     "geopandas>=1.1.1",
     "osmnx>=2.0.6",
     "pandas>=2.3.2",
@@ -16,3 +18,21 @@ dependencies = [
 [tool.setuptools]
 package-dir = {"" = "."}
 packages = ["osm_downloader"]
+
+
+[tool.semantic_release]
+version_toml = ["pyproject.toml:project.version"]
+update_pyproject_toml = true 
+commit_parser = "conventional"
+
+[tool.semantic_release.commit_parser_options]
+minor_tags = ["feat"]
+patch_tags = ["fix", "perf", "chore"]
+parse_squash_commits = true
+ignore_merge_commits = true
+
+[dependency-groups]
+dev = [
+    "python-semantic-release>=9.21.1",
+]
+

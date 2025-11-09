@@ -1,0 +1,14 @@
+version: "3"
+
+tasks:
+  run:
+    cmds:
+      - uv run -m osm_downloader.main
+  run:s3:
+    cmds:
+      - STORAGE_TYPE=s3 AWS_BUCKET=local-data AWS_ACCESS_KEY_ID=minioadmin AWS_SECRET_ACCESS_KEY=minioadmin AWS_ENDPOINT_URL=http://localhost:19000 uv run -m osm_downloader.main
+  release:
+    cmds:
+      - uv run semantic-release -v version --no-vcs-release
+      - git push
+      - git push --tags
