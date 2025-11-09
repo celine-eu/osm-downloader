@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v1.1.3 (2025-11-09)
+
+### Chores
+
+- Add pkg description
+  ([`d248a9a`](https://github.com/celine-eu/osm-downloader/commit/d248a9a6486a16a48e271e9051c2554597a8476c))
+
+
 ## v1.1.2 (2025-11-09)
 
 ### Chores
